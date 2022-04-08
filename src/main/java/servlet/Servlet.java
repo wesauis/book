@@ -48,7 +48,7 @@ public abstract class Servlet<C extends Controller> extends HttpServlet implemen
                     return;
             }
         }
-        
+
         String action = request.getParameter("action");
 
         try {
@@ -78,9 +78,6 @@ public abstract class Servlet<C extends Controller> extends HttpServlet implemen
         String method = request.getParameter("__method");
         if (method != null) {
             switch (method) {
-                case "POST":
-                    doPost(request, response);
-                    return;
                 case "PUT":
                     doPut(request, response);
                     return;
@@ -89,7 +86,7 @@ public abstract class Servlet<C extends Controller> extends HttpServlet implemen
                     return;
             }
         }
-        
+
         try {
             this.controller.store();
         } catch (IOException ioerr) {

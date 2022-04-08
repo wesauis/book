@@ -6,15 +6,16 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Meus Livros</title>
         
-        <link rel="stylesheet" href="<%=request.getContextPath()%>common.css">
+        <link rel="stylesheet" href="<%=request.getContextPath()%>css/common.css">
+        <link rel="stylesheet" href="<%=request.getContextPath()%>css/book/index.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     </head>
     <body>
-        <a href="<%=request.getContextPath()%>books?action=new">
+        <a class="text-center text-primary sticky topbar" href="<%=request.getContextPath()%>books?action=new">
             <i class="fa-solid fa-plus"></i> Novo Livro
         </a>
         <table border="1" class="border-collapse">
-            <thead>
+            <thead class="sticky header">
                 <tr>
                     <th>Títutlo</th>
                     <th>Ações</th>

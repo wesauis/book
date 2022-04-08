@@ -1,0 +1,11 @@
+.topbar {
+    top: 0;
+    width: 100%;
+    background-color: white;
+}
+
+.header {
+    top: 1.14em;
+    background-color: black;
+    color: white;
+}

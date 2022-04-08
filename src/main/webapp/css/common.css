@@ -1,0 +1,62 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: grid;
+    place-items: center;
+    
+    max-height: 100vh;
+    overflow: auto;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+table {
+    border-color: lightgray;
+}
+
+table td {
+    padding: 0.125em 0.25em;
+}
+
+.sticky {
+    position: sticky;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-primary {
+    color: teal;
+}
+
+.text-danger {
+    color: #f00;
+}
+
+.d-block {
+    display: block;
+}
+
+wv-100 {
+    width: 100vw;
+}
+
+w-100 {
+    width: 100%;
+}
+
+.border-collapse {
+    border-collapse: collapse;
+}
+
+.hidden {
+    display: none;
+}

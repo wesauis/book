@@ -3,7 +3,6 @@ package repository;
 import exeptions.ValidationError;
 import helper.Parse;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.ResultSet;
 import mixins.Loggable;
 import java.sql.SQLException;
