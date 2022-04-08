@@ -2,6 +2,14 @@
     text-align: center;
 }
 
+.text-danger {
+   color: #f00;
+}
+
 .border-collapse {
     border-collapse: collapse;
+}
+
+.hidden {
+    display: none;
 }

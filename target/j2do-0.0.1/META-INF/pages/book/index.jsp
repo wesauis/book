@@ -10,18 +10,19 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     </head>
     <body>
+        <a href="<%=request.getContextPath()%>books?action=new">
+            <i class="fa-solid fa-plus"></i> Novo Livro
+        </a>
         <table border="1" class="border-collapse">
             <thead>
                 <tr>
-                    <th>#</th>
-                    <th>Title</th>
+                    <th>Títutlo</th>
                     <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
                 <c:forEach var="book" items="${books}">
                     <tr>
-                        <td>${book.id()}</td>
                         <td>${book.title()}</td>
                         <td class="text-center">
                             <i class="fa-solid fa-pen-to-square"></i>

@@ -57,8 +57,6 @@ public abstract class Servlet<C extends Controller> extends HttpServlet implemen
             } else {
                 if ("new".equals(action)) {
                     this.controller.create();
-                } else if ("edit".equals(action) && "application/json".equalsIgnoreCase(request.getHeader("Content-Type"))) {
-                    this.controller.show();
                 } else if ("edit".equals(action)) {
                     this.controller.view();
                 }

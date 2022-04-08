@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 public class Book {
 
-    private int id;
+    private String id;
     private String title;
     private Integer stars;
     private String summary;
@@ -22,7 +22,7 @@ public class Book {
 
     public void validate() throws ValidationError {
         if (title == null || title.length() < 1) {
-            throw new ValidationError("Titulo é obrigatório");
+            throw new ValidationError("Título é obrigatório");
         } else if (stars != null && (stars < 0 || stars > 10)) {
             throw new ValidationError("Estrelas deve estar entre 0 e 10");
         } else if (page_count != null && page_count <= 0) {

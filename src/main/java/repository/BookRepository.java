@@ -1,12 +1,12 @@
 package repository;
 
-import database.DB;
 import exeptions.ValidationError;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import mixins.Loggable;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.UUID;
 import model.Book;
 import mixins.Repository;
 
@@ -32,7 +32,7 @@ public class BookRepository implements Loggable, Repository<Book> {
     public static void createTable(Connection conn) throws SQLException {
         conn.createStatement().execute(
                 "CREATE TABLE IF NOT EXISTS book (\n"
-                + "    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n"
+                + "    id CHAR(36) NOT NULL PRIMARY KEY,\n"
                 + "    title VARCHAR(512) NOT NULL,\n"
                 + "    stars INT CHECK(stars BETWEEN 0 AND 10),\n"
                 + "    summary TEXT,\n"
@@ -47,7 +47,7 @@ public class BookRepository implements Loggable, Repository<Book> {
     @Override
     public Book parse(ResultSet rs) throws SQLException {
         return new Book()
-                .id(rs.getInt("id"))
+                .id(rs.getString("id"))
                 .title(rs.getString("title"))
                 .stars(rs.getInt("stars"))
                 .summary(rs.getString("summary"))
@@ -67,9 +67,10 @@ public class BookRepository implements Loggable, Repository<Book> {
                 .first();
     }
 
-    public synchronized Book create(Book book) throws ValidationError, SQLException {
+    public Book create(Book book) throws ValidationError, SQLException {
         book.validate();
 
+        book.id(UUID.randomUUID().toString());
         createStatement("INSERT INTO "
                 + "book(id, title, stars, summary, release_date, author, publisher, page_count) "
                 + "VALUES({{id}}, {{title}}, {{stars}}, {{summary}}, {{release_date}}, {{author}}, {{publisher}}, {{page_count}})")
@@ -83,15 +84,10 @@ public class BookRepository implements Loggable, Repository<Book> {
                 .set("page_count", book.page_count())
                 .update();
 
-        ResultSet rs = createStatement("SELECT last_insert_rowid() as newId").queryRaw();
-        rs.next();
-        int id = rs.getInt("newId");
-        book.id(id);
-
         return book;
     }
 
-    public synchronized boolean update(Book book) throws ValidationError, SQLException {
+    public boolean update(Book book) throws ValidationError, SQLException {
         book.validate();
 
         return createStatement("UPDATE book SET "
@@ -114,7 +110,7 @@ public class BookRepository implements Loggable, Repository<Book> {
                 .update() > 0;
     }
 
-    public synchronized boolean delete(int bookId) throws ValidationError, SQLException {
+    public boolean delete(String bookId) throws ValidationError, SQLException {
         return createStatement("DELETE FROM book WHERE id = {{id}}")
                 .set("id", bookId)
                 .update() > 0;

@@ -42,34 +42,41 @@ public abstract class Controller implements Loggable {
     public RequestDispatcher dispatcher(String view) {
         return request.getRequestDispatcher(view);
     }
-    
+
     public void render(String view) throws IOException, ServletException {
         RequestDispatcher rd = dispatcher("META-INF/pages/" + view);
         rd.forward(request, response);
     }
-    
+
     public <T> void set(String key, T value) {
         request.setAttribute(key, value);
     }
 
     public void index() throws Exception {
+        response.sendRedirect("/errors/404.jsp");
     }
 
     public void create() throws Exception {
+        response.sendRedirect("/errors/404.jsp");
     }
 
     public void store() throws Exception {
+        response.sendRedirect("/errors/404.jsp");
     }
 
     public void view() throws Exception {
+        response.sendRedirect("/errors/404.jsp");
     }
 
     public void show() throws Exception {
+        response.sendRedirect("/errors/404.jsp");
     }
 
     public void update() throws Exception {
+        response.sendRedirect("/errors/404.jsp");
     }
 
     public void delete() throws Exception {
+        response.sendRedirect("/errors/404.jsp");
     }
 }
