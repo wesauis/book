@@ -3,13 +3,14 @@ package model;
 import exeptions.ValidationError;
 import java.sql.Date;
 import lombok.Data;
+import mixins.Loggable;
 
 /**
  *
  * @author w2gam
  */
 @Data
-public class Book {
+public class Book implements Loggable {
 
     private String id;
     private String title;

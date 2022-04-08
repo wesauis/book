@@ -17,11 +17,9 @@
         <script src="<%=request.getContextPath()%>utils.js"></script>
     </head>
     <body>
-        <c:if test="${error != null}">
-            <div>${error}</div>
-        </c:if>
         <form onsubmit="salvar(event)" method="POST" enctype="application/json" action="<%=request.getContextPath()%>${endpoint}">
             <input name="id" value="${book.id()}" hidden type="hidden">
+            <input name="__method" value="${method}" hidden type="hidden">
             <div>
                 <label for="title">Título <span class="text-danger">*</span></label>
                 <input id="title" name="title" value="${book.title()}" type="text" onchange="hideMessage('title')">
@@ -33,7 +31,7 @@
             </div>
             <div>
                 <label for="summary">Resumo</label>
-                <textarea id="summary" name="summary" value="${book.summary()}" rows="12"></textarea>                
+                <textarea id="summary" name="summary" rows="12">${book.summary()}</textarea>                
             </div>
             <div>
                 <label for="release_date">Data de Lançamento</label>
@@ -72,7 +70,7 @@
             async function salvar(event) {
                 event.preventDefault();
 
-                const campos = $$('form input[name]').map(campo => {
+                const campos = $$('form input[name], form textarea[name]').map(campo => {
                     return {
                         name: campo.name,
                         value: campo.value,
@@ -98,7 +96,7 @@
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded'
                         },
-                        method: $form.method,
+                        method: "POST",
                         body: new URLSearchParams(dados),
                     }).then(res => res.text())
                 }

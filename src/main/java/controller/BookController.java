@@ -19,13 +19,9 @@ public class BookController extends Controller {
 
     @Override
     public void create() throws Exception {
-        create(new Book(), null);
-    }
-    
-    public void create(Book book, String error) throws Exception {
         set("isNew", true);
-        set("book", book);
-        set("error", error);
+        set("book", new Book());
+        set("method", "POST");
         set("endpoint", "books");
         render("book/form.jsp");
     }
@@ -54,12 +50,29 @@ public class BookController extends Controller {
     @Override
     public void store() throws Exception {
         Book book = getBook();
-        try {
-            BookRepository.instance().create(book);
-        } catch (ValidationError err) {
-            create(book, err.getMessage());
-        }
         
+        BookRepository.instance().create(book);
+
+        out().write(request().getContextPath());
+        out().write("books");
+        out().flush();
+    }
+
+    @Override
+    public void view() throws Exception {
+        set("isNew", false);
+        set("book", BookRepository.instance().find(request().getParameter("id")));
+        set("method", "PUT");
+        set("endpoint", "books");
+        render("book/form.jsp");
+    }
+
+    @Override
+    public void update() throws Exception {
+        Book book = getBook();
+        
+        BookRepository.instance().update(book);
+
         out().write(request().getContextPath());
         out().write("books");
         out().flush();

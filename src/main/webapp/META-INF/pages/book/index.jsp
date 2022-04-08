@@ -25,7 +25,9 @@
                     <tr>
                         <td>${book.title()}</td>
                         <td class="text-center">
-                            <i class="fa-solid fa-pen-to-square"></i>
+                            <a href="<%=request.getContextPath()%>books?id=${book.id()}&action=edit">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
                             <a href="<%=request.getContextPath()%>books?id=${book.id()}&__method=DELETE">
                                 <i class="fa-solid fa-xmark"></i>
                             </a>

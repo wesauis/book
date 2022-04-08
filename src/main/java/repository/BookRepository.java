@@ -1,7 +1,9 @@
 package repository;
 
 import exeptions.ValidationError;
+import helper.Parse;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import mixins.Loggable;
 import java.sql.SQLException;
@@ -51,7 +53,7 @@ public class BookRepository implements Loggable, Repository<Book> {
                 .title(rs.getString("title"))
                 .stars(rs.getInt("stars"))
                 .summary(rs.getString("summary"))
-                .release_date(rs.getDate("release_date"))
+                .release_date(Parse.asDate(rs.getString("release_date")))
                 .author(rs.getString("author"))
                 .publisher(rs.getString("publisher"))
                 .page_count(rs.getInt("page_count"));
@@ -61,8 +63,8 @@ public class BookRepository implements Loggable, Repository<Book> {
         return createStatement("SELECT * FROM book").query();
     }
 
-    public Book find(int id) throws SQLException {
-        return createStatement("SELECT * FROM book WHERE id in {{id}} LIMIT 1")
+    public Book find(String id) throws SQLException {
+        return createStatement("SELECT * FROM book WHERE id = {{id}} LIMIT 1")
                 .set("id", id)
                 .first();
     }
@@ -97,7 +99,7 @@ public class BookRepository implements Loggable, Repository<Book> {
                 + "release_date = {{release_date}}, "
                 + "author = {{author}}, "
                 + "publisher = {{publisher}}, "
-                + "page_count = {{page_count}}"
+                + "page_count = {{page_count}} "
                 + "WHERE id = {{id}}")
                 .set("id", book.id())
                 .set("title", book.title())
