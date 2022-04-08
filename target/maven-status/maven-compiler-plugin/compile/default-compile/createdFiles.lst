@@ -1,3 +1,4 @@
+filter\EncodeFilter.class
 database\DB.class
 controller\Controller.class
 mixins\Loggable.class
