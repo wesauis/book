@@ -18,40 +18,44 @@
         <script src="<%=request.getContextPath()%>utils.js"></script>
     </head>
     <body>
+        <div class="spacer-2"></div>
+        
         <form onsubmit="salvar(event)" method="POST" enctype="application/json" action="<%=request.getContextPath()%>${endpoint}">
             <input name="id" value="${book.id()}" hidden type="hidden">
             <input name="__method" value="${method}" hidden type="hidden">
-            <div>
+            <div class="form-field">
                 <label for="title">Título <span class="text-danger">*</span></label>
                 <input id="title" name="title" value="${book.title()}" type="text" onchange="hideMessage('title')">
                 <p class="hidden input-error text-danger">O título é obrigatório</p>
             </div>
-            <div>
+            <div class="form-field">
                 <label for="stars">Estrelas</label>
                 <input id="stars" name="stars" value="${book.stars()}" type="range" min="0" max="10">
             </div>
-            <div>
+            <div class="form-field">
                 <label for="summary">Resumo</label>
                 <textarea id="summary" name="summary" rows="12">${book.summary()}</textarea>                
             </div>
-            <div>
+            <div class="form-field">
                 <label for="release_date">Data de Lançamento</label>
                 <input id="release_date" name="release_date" value="${book.release_date()}" type="date">                
             </div>
-            <div>
+            <div class="form-field">
                 <label for="author">Autor</label>
                 <input id="author" name="author" value="${book.author()}" type="text">
             </div>
-            <div>
+            <div class="form-field">
                 <label for="publisher">Editora</label>
                 <input id="publisher" name="publisher" value="${book.publisher()}" type="text">
             </div>
-            <div>
+            <div class="form-field">
                 <label for="page_count">Número de Páginas</label>
                 <input id="page_count" name="page_count" value="${book.page_count()}" type="number" min="0">
             </div>
             <button type="submit">Salvar</button>
         </form>
+
+        <div class="spacer-8"></div>
 
         <script>
             const $form = $('form');
