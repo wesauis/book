@@ -4,6 +4,7 @@ import helper.Loggable;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -40,6 +41,15 @@ public abstract class Controller implements Loggable {
 
     public RequestDispatcher dispatcher(String view) {
         return request.getRequestDispatcher(view);
+    }
+    
+    public void render(String view) throws IOException, ServletException {
+        RequestDispatcher rd = dispatcher("META-INF/pages/" + view);
+        rd.forward(request, response);
+    }
+    
+    public <T> void set(String key, T value) {
+        request.setAttribute(key, value);
     }
 
     /**

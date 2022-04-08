@@ -9,8 +9,7 @@ import javax.servlet.RequestDispatcher;
 public class BookController extends Controller {
     @Override
     public void index() throws Exception {
-        request().setAttribute("A", "B");
-        RequestDispatcher rd = dispatcher("META-INF/pages/books/index.jsp");
-        rd.forward(request(), response());
+        set("A", "BAAasasasA");
+        render("books/index.jsp");
     }
 }
