@@ -1,4 +1,4 @@
-package helper;
+package mixins;
 
 import java.util.logging.Logger;
 

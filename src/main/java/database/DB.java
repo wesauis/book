@@ -1,11 +1,15 @@
 package database;
 
-import controller.BookController;
-import helper.Loggable;
-import helper.Loggable;
+import mixins.Loggable;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Function;
+import java.util.logging.Level;
+import repository.BookRepository;
 
 /**
  *
@@ -13,8 +17,8 @@ import java.sql.SQLException;
  */
 public class DB implements Loggable {
 
-//    private static final String URI = "jdbc:sqlite:app.db";
-    private static final String URI = "jdbc:sqlite::memory:";
+    private static final String URI = "jdbc:sqlite:./app.db";
+//    private static final String URI = "jdbc:sqlite::memory:";
     private static final String DRIVER = "org.sqlite.JDBC";
 
     private static DB instance;
@@ -36,12 +40,24 @@ public class DB implements Loggable {
     private DB() {
         try {
             Class.forName(DRIVER);
+
+            connection();
+            initDB();
         } catch (ClassNotFoundException ex) {
             logger().severe("Driver not found '" + DRIVER + "'");
             System.exit(1);
+        } catch (SQLException ex) {
+            logger().log(Level.SEVERE, "Unable to initialize database", ex);
+            System.exit(1);
         }
+        
+        logger().info("DB Initialized Successfully");
     }
-    
+
+    private void initDB() throws SQLException {
+        BookRepository.createTable(connection());
+    }
+
     /**
      *
      * @return an open connection
@@ -64,6 +80,29 @@ public class DB implements Loggable {
         }
 
         return connection;
+    }
+    
+    /**
+     * Converte um resultset para uma lista de entidades.
+     *
+     * @param <E> tipo da entidade
+     * @param resultSet resultados
+     * @param parser função responsável por converter um registro do DB para uma
+     * lista de entidades
+     * @return
+     * @throws SQLException
+     */
+    public static <E> List<E> parseResults(ResultSet resultSet, Function<ResultSet, E> parser) throws SQLException {
+        List<E> entities = new ArrayList<>();
+
+        while (resultSet.next()) {
+            E e = parser.apply(resultSet);
+            if (e != null) {
+                entities.add(e);
+            }
+        }
+
+        return entities;
     }
 
 }

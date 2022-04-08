@@ -1,6 +1,6 @@
 package controller;
 
-import helper.Loggable;
+import mixins.Loggable;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -52,45 +52,24 @@ public abstract class Controller implements Loggable {
         request.setAttribute(key, value);
     }
 
-    /**
-     * json
-     */
     public void index() throws Exception {
     }
 
-    /**
-     * html
-     */
     public void create() throws Exception {
     }
 
-    /**
-     * json
-     */
     public void store() throws Exception {
     }
 
-    /**
-     * html
-     */
-    public void view(String key) throws Exception {
+    public void view() throws Exception {
     }
 
-    /**
-     * json
-     */
-    public void show(String key) throws Exception {
+    public void show() throws Exception {
     }
 
-    /**
-     * json
-     */
-    public void update(String key) throws Exception {
+    public void update() throws Exception {
     }
 
-    /**
-     * json
-     */
-    public void delete(String key) throws Exception {
+    public void delete() throws Exception {
     }
 }

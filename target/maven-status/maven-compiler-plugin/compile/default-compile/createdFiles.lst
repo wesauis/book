@@ -2,6 +2,11 @@ database\DB.class
 servlet\BookServlet.class
 controller\BookController.class
 controller\Controller.class
+mixins\Loggable.class
+model\Book.class
 config\GlobalConfig.class
-helper\Loggable.class
+repository\BookRepository.class
+exeptions\ValidationError.class
+mixins\Repository.class
 servlet\Servlet.class
+database\NamedStatement.class

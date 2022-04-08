@@ -1,7 +1,12 @@
 C:\Users\w2gam\Downloads\j2do_\src\main\java\servlet\BookServlet.java
+C:\Users\w2gam\Downloads\j2do_\src\main\java\mixins\Repository.java
 C:\Users\w2gam\Downloads\j2do_\src\main\java\config\GlobalConfig.java
+C:\Users\w2gam\Downloads\j2do_\src\main\java\exeptions\ValidationError.java
 C:\Users\w2gam\Downloads\j2do_\src\main\java\controller\Controller.java
-C:\Users\w2gam\Downloads\j2do_\src\main\java\helper\Loggable.java
 C:\Users\w2gam\Downloads\j2do_\src\main\java\controller\BookController.java
+C:\Users\w2gam\Downloads\j2do_\src\main\java\model\Book.java
 C:\Users\w2gam\Downloads\j2do_\src\main\java\database\DB.java
+C:\Users\w2gam\Downloads\j2do_\src\main\java\mixins\Loggable.java
+C:\Users\w2gam\Downloads\j2do_\src\main\java\database\NamedStatement.java
 C:\Users\w2gam\Downloads\j2do_\src\main\java\servlet\Servlet.java
+C:\Users\w2gam\Downloads\j2do_\src\main\java\repository\BookRepository.java

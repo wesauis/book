@@ -1,7 +1,7 @@
 package servlet;
 
 import controller.Controller;
-import helper.Loggable;
+import mixins.Loggable;
 import java.io.IOException;
 import java.util.logging.Level;
 import javax.servlet.ServletException;
@@ -22,17 +22,6 @@ public abstract class Servlet<C extends Controller> extends HttpServlet implemen
         this.controller = controller;
     }
 
-    protected String getKey(HttpServletRequest request) {
-        String path = request.getPathInfo();
-
-        if (path == null) {
-            return null;
-        }
-
-        String[] parts = path.split("/");
-        return parts.length > 0 ? parts[0] : null;
-    }
-
     protected void sendError(HttpServletRequest request, HttpServletResponse response, int status) throws IOException {
         if (response.isCommitted()) {
             return;
@@ -44,18 +33,34 @@ public abstract class Servlet<C extends Controller> extends HttpServlet implemen
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         this.controller.begin(request, response);
-        String key = getKey(request);
+
+        String method = request.getParameter("__method");
+        if (method != null) {
+            switch (method) {
+                case "POST":
+                    doPost(request, response);
+                    return;
+                case "PUT":
+                    doPut(request, response);
+                    return;
+                case "DELETE":
+                    doDelete(request, response);
+                    return;
+            }
+        }
+        
+        String action = request.getParameter("action");
 
         try {
-            if (key == null) {
+            if (action == null) {
                 this.controller.index();
             } else {
-                if (key.equals("new")) {
+                if ("new".equals(action)) {
                     this.controller.create();
-                } else if ("application/json".equalsIgnoreCase(request.getHeader("Content-Type"))) {
-                    this.controller.show(key);
-                } else {
-                    this.controller.view(key);
+                } else if ("edit".equals(action) && "application/json".equalsIgnoreCase(request.getHeader("Content-Type"))) {
+                    this.controller.show();
+                } else if ("edit".equals(action)) {
+                    this.controller.view();
                 }
             }
         } catch (IOException ioerr) {
@@ -72,6 +77,21 @@ public abstract class Servlet<C extends Controller> extends HttpServlet implemen
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         this.controller.begin(request, response);
 
+        String method = request.getParameter("__method");
+        if (method != null) {
+            switch (method) {
+                case "POST":
+                    doPost(request, response);
+                    return;
+                case "PUT":
+                    doPut(request, response);
+                    return;
+                case "DELETE":
+                    doDelete(request, response);
+                    return;
+            }
+        }
+        
         try {
             this.controller.store();
         } catch (IOException ioerr) {
@@ -87,12 +107,9 @@ public abstract class Servlet<C extends Controller> extends HttpServlet implemen
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         this.controller.begin(request, response);
-        String key = getKey(request);
 
         try {
-            if (key != null) {
-                this.controller.update(key);
-            }
+            this.controller.update();
         } catch (IOException ioerr) {
             throw ioerr;
         } catch (Exception err) {
@@ -106,12 +123,9 @@ public abstract class Servlet<C extends Controller> extends HttpServlet implemen
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         this.controller.begin(request, response);
-        String key = getKey(request);
 
         try {
-            if (key != null) {
-                this.controller.delete(key);
-            }
+            this.controller.delete();
         } catch (IOException ioerr) {
             throw ioerr;
         } catch (Exception err) {
