@@ -1,5 +1,6 @@
 package helper;
 
+import controller.TodosController;
 import helper.Loggable;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,7 +12,8 @@ import java.sql.SQLException;
  */
 public class DB implements Loggable {
 
-    private static final String URI = "jdbc:sqlite:db.sqlite";
+//    private static final String URI = "jdbc:sqlite:app.db";
+    private static final String URI = "jdbc:sqlite::memory:";
     private static final String DRIVER = "org.sqlite.JDBC";
 
     private static DB instance;

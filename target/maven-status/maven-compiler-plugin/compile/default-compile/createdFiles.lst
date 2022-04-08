@@ -1,4 +1,7 @@
-io\github\wesauis\controller\Controller.class
-io\github\wesauis\j2do\servlet\Servlet.class
-io\github\wesauis\controller\TodosController.class
-io\github\wesauis\j2do\servlet\TodosServlet.class
+controller\TodosController.class
+controller\Controller.class
+config\GlobalConfig.class
+helper\Loggable.class
+servlet\Servlet.class
+servlet\TodosServlet.class
+helper\DB.class
