@@ -1,6 +1,9 @@
 package controller;
 
 import helper.Loggable;
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,31 +13,74 @@ import javax.servlet.http.HttpServletResponse;
  */
 public abstract class Controller implements Loggable {
 
-    /** json */
-    public void index(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    private HttpServletRequest request;
+    private HttpServletResponse response;
+
+    public void begin(HttpServletRequest request, HttpServletResponse response) {
+        this.request = request;
+        this.response = response;
     }
-    
-    /** html */
-    public void create(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+    public void end() {
+        request = null;
+        response = null;
     }
-    
-    /** json */
-    public void store(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+    public HttpServletRequest request() {
+        return this.request;
     }
-    
-    /** html */
-    public void view(HttpServletRequest request, HttpServletResponse response, String key) throws Exception {
+
+    public HttpServletResponse response() {
+        return this.response;
     }
-    
-    /** json */
-    public void show(HttpServletRequest request, HttpServletResponse response, String key) throws Exception {
+
+    public PrintWriter out() throws IOException {
+        return response.getWriter();
     }
-    
-    /** json */
-    public void update(HttpServletRequest request, HttpServletResponse response, String key) throws Exception {
+
+    public RequestDispatcher dispatcher(String view) {
+        return request.getRequestDispatcher(view);
     }
-    
-    /** json */
-    public void delete(HttpServletRequest request, HttpServletResponse response, String key) throws Exception {
+
+    /**
+     * json
+     */
+    public void index() throws Exception {
+    }
+
+    /**
+     * html
+     */
+    public void create() throws Exception {
+    }
+
+    /**
+     * json
+     */
+    public void store() throws Exception {
+    }
+
+    /**
+     * html
+     */
+    public void view(String key) throws Exception {
+    }
+
+    /**
+     * json
+     */
+    public void show(String key) throws Exception {
+    }
+
+    /**
+     * json
+     */
+    public void update(String key) throws Exception {
+    }
+
+    /**
+     * json
+     */
+    public void delete(String key) throws Exception {
     }
 }

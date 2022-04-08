@@ -3,6 +3,7 @@ package servlet;
 import controller.Controller;
 import helper.Loggable;
 import java.io.IOException;
+import java.util.logging.Level;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +29,8 @@ public abstract class Servlet<C extends Controller> extends HttpServlet implemen
             return null;
         }
 
-        return path.split("/")[0];
+        String[] parts = path.split("/");
+        return parts.length > 0 ? parts[0] : null;
     }
 
     protected void sendError(HttpServletRequest request, HttpServletResponse response, int status) throws IOException {
@@ -41,70 +43,87 @@ public abstract class Servlet<C extends Controller> extends HttpServlet implemen
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        this.controller.begin(request, response);
         String key = getKey(request);
 
         try {
             if (key == null) {
-                this.controller.index(request, response);
+                this.controller.index();
             } else {
                 if (key.equals("new")) {
-                    this.controller.create(request, response);
-                } else if (request.getHeader("Content-Type").equalsIgnoreCase("application/json")) {
-                    this.controller.show(request, response, key);
+                    this.controller.create();
+                } else if ("application/json".equalsIgnoreCase(request.getHeader("Content-Type"))) {
+                    this.controller.show(key);
                 } else {
-                    this.controller.view(request, response, key);
+                    this.controller.view(key);
                 }
             }
+        } catch (IOException ioerr) {
+            throw ioerr;
         } catch (Exception err) {
+            this.controller.end();
             this.onError(request, response, err);
         }
 
-        sendError(request, response, 404);
+        this.controller.end();
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        this.controller.begin(request, response);
+
         try {
-            this.controller.store(request, response);
+            this.controller.store();
+        } catch (IOException ioerr) {
+            throw ioerr;
         } catch (Exception err) {
+            this.controller.end();
             this.onError(request, response, err);
         }
 
-        sendError(request, response, 404);
+        this.controller.end();
     }
 
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        this.controller.begin(request, response);
         String key = getKey(request);
 
         try {
             if (key != null) {
-                this.controller.update(request, response, key);
+                this.controller.update(key);
             }
+        } catch (IOException ioerr) {
+            throw ioerr;
         } catch (Exception err) {
+            this.controller.end();
             this.onError(request, response, err);
         }
 
-        sendError(request, response, 404);
+        this.controller.end();
     }
 
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        this.controller.begin(request, response);
         String key = getKey(request);
 
         try {
             if (key != null) {
-                this.controller.delete(request, response, key);
+                this.controller.delete(key);
             }
+        } catch (IOException ioerr) {
+            throw ioerr;
         } catch (Exception err) {
+            this.controller.end();
             this.onError(request, response, err);
         }
 
-        sendError(request, response, 404);
+        this.controller.end();
     }
 
     protected void onError(HttpServletRequest request, HttpServletResponse response, Exception err) throws IOException {
-        sendError(request, response, 404);
+        logger().log(Level.SEVERE, null, err);
     }
 
 }
